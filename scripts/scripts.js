@@ -91,6 +91,8 @@ var d_suave;
 	// círculo
 	var circle = draw.circle(100).attr({ fill: '#fa6' }).move(300, 300);
 	// depois, agrupar e deformar...
+	
+	// agora vou ver se consigo puxar isso para meu branch lá no outro computador...
 	}
 
 var desenho_suave = draw.path(d_suave);
