@@ -10,41 +10,14 @@ var botao;
 var draw;
 var conta;
 
-function inicia_svg(){
-//alert(width + ' x ' + height);
-document.getElementsByTagName('svg')[0].setAttribute("width",width);
-document.getElementsByTagName('svg')[0].setAttribute("height",height);
-
-draw = SVG('drawing').viewbox(0, 0, width, height)
-
+function desenha_triangulo() {
 // faz um triângulo aleatório
 // sorteia e junta as linhas de 3 pontos
 // os pontos x e y tem que ser menores que width e height
-// será melhor fazer isso em Php?
 var num_triangulos = 1;
 var alcance_bezier_x = 0.1 * width; //distância em relação ao tamanho da tela dos pontos de controle das curvas de bezier
 var alcance_bezier_y = 0.1 * height;
 var d_suave;
-
-	for (triangulo = 0; triangulo < num_triangulos; triangulo++) {
-	pontos_x_triangulo = [];
-	pontos_y_triangulo = [];
-		for (ponto_x = 0; ponto_x < 3; ponto_x++) {
-		ponto = Math.floor(Math.random() * width);
-		pontos_x_triangulo.push(ponto);
-		}
-
-		for (ponto_y = 0; ponto_y < 3; ponto_y++) {
-		ponto = Math.floor(Math.random() * height);
-		pontos_y_triangulo.push(ponto);
-		}
-
-	d_triangulo = "M" + pontos_x_triangulo[0] + " " + pontos_y_triangulo[0] + " L " + pontos_x_triangulo[1] + " " + pontos_y_triangulo[1] + " L " + pontos_x_triangulo[2] + " " + pontos_y_triangulo[2] + " Z";
-
-	var desenho_triangulo = draw.path(d_triangulo)
-	desenho_triangulo.fill('pink').move(200, 200);
-	desenho_triangulo.attr({"id":"triangulo_" + triangulo});
-	}
 
 	//fazer x curvas
 	// primeiro gerar as strings das curvas
@@ -76,23 +49,126 @@ var d_suave;
 		ponto_suave = "c " + pontos_x_suave[pontos_suave] + " " + pontos_y_suave[pontos_suave] + " " + pontos_bezier_suave[ponto_bezier++] + " " + pontos_bezier_suave[ponto_bezier++] + " " + pontos_bezier_suave[ponto_bezier++] + " " + pontos_bezier_suave[ponto_bezier++] + " ";
 		d_suave = d_suave + " " + ponto_suave;
 		}
-
-	//alert(d_suave);
+	
 	strings_curvas[curva] = d_suave;
-		
-	// fazendo um grupo de formas de mesma cor para dar a impressão de soldadas
-	var cor = '#f06';
-	var rect = draw.rect(100, 100).attr({ fill: cor }).move(400, 400);
-	var circle = draw.circle(100).attr({ fill: cor }).move(300, 300);
-	var rect = draw.rect(100, 100).attr({ fill: cor }).move(200, 400).radius(10, 20);
-	var meiaLua = draw.path('m 345,353 a 222,214 0 0 0 -201,124 197,190 0 0 1 61,-9 197,190 0 0 1 197,190 197,190 0 0 1 -47,123 222,214 0 0 0 213,-213 222,214 0 0 0 -222,-214 z').style({ fill: cor }).move(300, 500).transform({scale:1});
 	}
 
-var desenho_suave = draw.path(d_suave);
-desenho_suave.fill('green').move(100, 100);
-desenho_suave.attr({"id":"curva", "onclick":"muda_curva(strings_curvas[2])"});
+	num_curva = 1;
+	var desenho_suave = draw.path(d_suave);
+	desenho_suave.fill('green').move(100, 100);
+	desenho_suave.attr({"id":"curva", "onclick":"alert(strings_curvas[num_curva]); muda_curva(strings_curvas[num_curva]);num_curva = num_curva + 1;"});
+}
 
-//alert(strings_curvas);
+function muda_curva(dados){
+SVG.get('curva').animate({ ease: '<'}).plot(dados);
+}
+
+function inicia_svg(){
+//alert(width + ' x ' + height);
+document.getElementsByTagName('svg')[0].setAttribute("width",width);
+document.getElementsByTagName('svg')[0].setAttribute("height",height);
+
+draw = SVG('drawing').viewbox(0, 0, width, height)
+
+desenha_triangulo();
+
+////////////////////////////////////
+
+
+// fazendo um grupo de formas de mesma cor para dar a impressão de soldadas
+// inserindo aleatoriedade no número de formas, tamanho e posição
+var cor = '#f06';
+
+//quadrados
+var num_max_formas = 5;
+quantos = Math.floor(Math.random() * num_max_formas);
+onde_aproximado_x = 100;
+onde_aproximado_y = 100;
+tamanho_aproximado_x = 100;
+tamanho_aproximado_y = 100;
+	for(n = 0; n <= quantos; n++){
+	onde_x = Math.floor(Math.random() * onde_aproximado_x);
+	onde_y = Math.floor(Math.random() * onde_aproximado_y);
+	tamanho_x = Math.floor(Math.random() * tamanho_aproximado_x);
+	tamanho_y = Math.floor(Math.random() * tamanho_aproximado_y);
+	var rect = draw.rect(tamanho_x, tamanho_y).attr({ fill: cor }).move(onde_x, onde_y).stroke('#000');
+	}
+
+//triângulos
+var num_max_formas = 5;
+quantos = Math.floor(Math.random() * num_max_formas);
+onde_aproximado_x = 100;
+onde_aproximado_y = 100;
+tamanho_aproximado_x = 100;
+tamanho_aproximado_y = 100;
+	for(n = 0; n <= quantos; n++){
+	pontos_x_triangulo = [];
+	pontos_y_triangulo = [];
+
+		for (ponto_x = 0; ponto_x < 3; ponto_x++) {
+		ponto = Math.floor(Math.random() * tamanho_aproximado_x);
+		pontos_x_triangulo.push(ponto);
+		}
+
+		for (ponto_y = 0; ponto_y < 3; ponto_y++) {
+		ponto = Math.floor(Math.random() * onde_aproximado_y);
+		pontos_y_triangulo.push(ponto);
+		}
+
+	d_triangulo = "M" + pontos_x_triangulo[0] + " " + pontos_y_triangulo[0] + " L " + pontos_x_triangulo[1] + " " + pontos_y_triangulo[1] + " L " + pontos_x_triangulo[2] + " " + pontos_y_triangulo[2] + " Z";
+
+	onde_x = Math.floor(Math.random() * onde_aproximado_x);
+	onde_y = Math.floor(Math.random() * onde_aproximado_y);
+	var desenho_triangulo = draw.path(d_triangulo).attr({ fill: cor }).move(onde_x, onde_y).stroke('#000');
+	}
+
+// circulos	
+var num_max_formas = 5;
+quantos = Math.floor(Math.random() * num_max_formas);
+onde_aproximado_x = 100;
+onde_aproximado_y = 100;
+tamanho_aproximado_x = 100;
+	for(n = 0; n <= quantos; n++){
+	onde_x = Math.floor(Math.random() * onde_aproximado_x);
+	onde_y = Math.floor(Math.random() * onde_aproximado_y);
+	tamanho_x = Math.floor(Math.random() * tamanho_aproximado_x);
+	var circle = draw.circle(tamanho_x).attr({ fill: cor }).move(100 + onde_x, 100 + onde_y).stroke('#000');
+	}	
+
+// retângulos de cantos arredondados
+var num_max_formas = 5;
+quantos = Math.floor(Math.random() * num_max_formas);
+onde_aproximado_x = 100;
+onde_aproximado_y = 100;
+tamanho_aproximado_x = 100;
+tamanho_aproximado_y = 100;
+raio_maximo = 30;
+	for(n = 0; n <= quantos; n++){
+	onde_x = Math.floor(Math.random() * onde_aproximado_x);
+	onde_y = Math.floor(Math.random() * onde_aproximado_y);
+	tamanho_x = Math.floor(Math.random() * tamanho_aproximado_x);
+	tamanho_y = Math.floor(Math.random() * tamanho_aproximado_y);
+	raio = Math.floor(Math.random() * raio_maximo);
+	var rect = draw.rect(tamanho_x, tamanho_y).attr({ fill: cor }).move(200 + onde_x , 400 + onde_y).radius(raio_maximo, raio_maximo).stroke('#000');
+	}
+
+// meia-lua
+var num_max_formas = 5;
+quantos = Math.floor(Math.random() * num_max_formas);
+onde_aproximado_x = 100;
+onde_aproximado_y = 100;
+tamanho_aproximado = 1;
+	for(n = 0; n <= quantos; n++){
+	onde_x = Math.floor(Math.random() * onde_aproximado_x);
+	onde_y = Math.floor(Math.random() * onde_aproximado_y);
+	tamanho_x = Math.floor(Math.random() * tamanho_aproximado_x);
+	tamanho_y = Math.floor(Math.random() * tamanho_aproximado_y);
+	tamanho_aproximado = Math.floor(Math.random() * tamanho_aproximado);
+	var meiaLua = draw.path('m 345,353 a 222,214 0 0 0 -201,124 197,190 0 0 1 61,-9 197,190 0 0 1 197,190 197,190 0 0 1 -47,123 222,214 0 0 0 213,-213 222,214 0 0 0 -222,-214 z').style({ fill: cor }).move(onde_aproximado_x, onde_aproximado_y).transform({scale: .15}).stroke('#000');
+	}	
+
+
+////////////////////////////////////
 
 tamanho_botao_h = 200;
 tamanho_botao_v = 50;
@@ -113,10 +189,3 @@ function ocupa_tudo(como){
 	SVG.get('botao').attr({"onclick":"ocupa_tudo(true)"});
 	};
 }
-
-function muda_curva(dados){
-SVG.get('curva').animate({ ease: '<'}).plot(dados);
-//SVG.get('desenho_suave').attr({"onclick":"ocupa_tudo(false)"});
-}
-
-
