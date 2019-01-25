@@ -42,7 +42,7 @@ var d_suave;
 	d_triangulo = "M" + pontos_x_triangulo[0] + " " + pontos_y_triangulo[0] + " L " + pontos_x_triangulo[1] + " " + pontos_y_triangulo[1] + " L " + pontos_x_triangulo[2] + " " + pontos_y_triangulo[2] + " Z";
 
 	var desenho_triangulo = draw.path(d_triangulo)
-	desenho_triangulo.fill('yellow').move(200, 200);
+	desenho_triangulo.fill('pink').move(200, 200);
 	desenho_triangulo.attr({"id":"triangulo_" + triangulo});
 	}
 
@@ -93,7 +93,7 @@ tamanho_botao_v = 50;
 conta = "M" + ((width/2) - (tamanho_botao_h/2)) + " " + ((height/2) - (tamanho_botao_v/2)) + " L " + ((width/2) + (tamanho_botao_h/2)) + " " + ((height/2) - (tamanho_botao_v/2)) + " L " + ((width/2) + (tamanho_botao_h/2)) + " " + ((height/2) + (tamanho_botao_v/2)) + " L " + ((width/2) - (tamanho_botao_h/2)) + " " + ((height/2) + (tamanho_botao_v/2)) + " Z";
 
 var botao = draw.path(conta)
-botao.fill('blue');
+botao.fill('lightblue');
 botao.attr({"id":"botao", "onclick":"ocupa_tudo(true)"});
 }
 
@@ -111,3 +111,5 @@ function muda_curva(dados){
 SVG.get('curva').animate({ ease: '<'}).plot(dados);
 //SVG.get('desenho_suave').attr({"onclick":"ocupa_tudo(false)"});
 }
+
+
