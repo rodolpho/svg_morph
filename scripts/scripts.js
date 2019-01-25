@@ -79,18 +79,13 @@ var d_suave;
 
 	//alert(d_suave);
 	strings_curvas[curva] = d_suave;
-	
-	// várias formas que juntas farão a forma final:
-	// quadrado
-	var rect = draw.rect(100, 100).attr({ fill: '#f06' }).move(400, 400);
-	// triângulo - já feito
-	// meia-lua
-	var meiaLua = draw.path('m 345,353 a 222,214 0 0 0 -201,124 197,190 0 0 1 61,-9 197,190 0 0 1 197,190 197,190 0 0 1 -47,123 222,214 0 0 0 213,-213 222,214 0 0 0 -222,-214 z').style({ fill:'blue'}).move(300, 500).transform({scale:1});
-	// retângulo de bordas arredondadas
-	var rect = draw.rect(100, 100).attr({ fill: '#0f6' }).move(200, 400).radius(10, 20);
-	// círculo
-	var circle = draw.circle(100).attr({ fill: '#fa6' }).move(300, 300);
-	// depois, agrupar e deformar...
+		
+	// fazendo um grupo de formas de mesma cor para dar a impressão de soldadas
+	var cor = '#f06';
+	var rect = draw.rect(100, 100).attr({ fill: cor }).move(400, 400);
+	var circle = draw.circle(100).attr({ fill: cor }).move(300, 300);
+	var rect = draw.rect(100, 100).attr({ fill: cor }).move(200, 400).radius(10, 20);
+	var meiaLua = draw.path('m 345,353 a 222,214 0 0 0 -201,124 197,190 0 0 1 61,-9 197,190 0 0 1 197,190 197,190 0 0 1 -47,123 222,214 0 0 0 213,-213 222,214 0 0 0 -222,-214 z').style({ fill: cor }).move(300, 500).transform({scale:1});
 	}
 
 var desenho_suave = draw.path(d_suave);
